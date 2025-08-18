@@ -1,0 +1,18 @@
+{
+    "name": "counter-sms",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "license": "MIT",
+    "dependencies": {
+        "@prisma/client": "^6.14.0",
+        "@slack/bolt": "^4.4.0",
+        "dotenv": "^17.2.1",
+        "express": "^5.1.0",
+        "prisma": "^6.14.0",
+        "sqlite3": "^5.1.7",
+        "twilio": "^5.8.0"
+    },
+    "scripts": {
+        "start": "node src/index.js"
+    }
+}

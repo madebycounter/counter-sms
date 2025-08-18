@@ -1,0 +1,20 @@
+###
+POST http://localhost:3000/subscribe
+Content-Type: application/json
+Authorization: Bearer {{$dotenv API_KEYS}}
+
+{
+    "phone": "4087977416"
+}
+
+###
+GET http://localhost:3000/users
+Authorization: Bearer {{$dotenv API_KEYS}}
+
+###
+GET http://localhost:3000/messages
+Authorization: Bearer {{$dotenv API_KEYS}}
+
+###
+GET http://localhost:3000/messages/+14087977416
+Authorization: Bearer {{$dotenv API_KEYS}}
