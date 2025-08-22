@@ -118,7 +118,7 @@ app.post("/send", useApiKey, async (req, res) => {
         } else {
             users = [
                 {
-                    phoneNumber: "+14087077416",
+                    phoneNumber: "+14087977416",
                 },
             ];
         }
