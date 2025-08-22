@@ -18,3 +18,12 @@ Authorization: Bearer {{$dotenv API_KEYS}}
 ###
 GET http://localhost:3000/messages/+14087977416
 Authorization: Bearer {{$dotenv API_KEYS}}
+
+###
+POST http://localhost:3000/send
+Content-Type: application/json
+Authorization: Bearer {{$dotenv API_KEYS}}
+
+{
+    "message": "🚽 Gotta piss? Need a snack? Feel free to leave during intermission and get notified when the next set starts: https://madebycounter.com/notify"
+}

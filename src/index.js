@@ -88,6 +88,73 @@ app.get("/users", useApiKey, async (req, res) => {
     }
 });
 
+app.post("/send", useApiKey, async (req, res) => {
+    const { message } = req.body;
+    const isProduction = req.headers["x-production"] === "true";
+
+    if (!message) {
+        return res.status(400).json({
+            status: "error",
+            message: "Message body is required",
+        });
+    }
+
+    try {
+        let users;
+
+        if (isProduction) {
+            users = await prisma.user.findMany({
+                select: {
+                    id: true,
+                    phoneNumber: true,
+                    active: true,
+                    createdAt: true,
+                    updatedAt: true,
+                },
+                where: {
+                    active: true,
+                },
+            });
+        } else {
+            users = await prisma.user.findMany({
+                select: {
+                    id: true,
+                    phoneNumber: true,
+                    active: true,
+                    createdAt: true,
+                    updatedAt: true,
+                },
+                where: {
+                    phoneNumber: "+14087977416",
+                    active: true,
+                },
+            });
+        }
+
+        for (const user of users) {
+            const msg = {
+                body: message,
+                from: process.env.TWILIO_SEND_NUMBER,
+                to: user.phoneNumber,
+            };
+
+            await addMessage(prisma, msg.from, msg.to, msg.body);
+            await twilio.messages.create(msg);
+        }
+
+        res.json({
+            status: "ok",
+            message: `Message sent to ${users.length} users`,
+            production: isProduction,
+        });
+    } catch (error) {
+        res.status(500).json({
+            status: "error",
+            message: error.message,
+        });
+    }
+});
+
 app.get("/messages", useApiKey, async (req, res) => {
     try {
         const messages = await prisma.message.findMany({
