@@ -116,24 +116,16 @@ app.post("/send", useApiKey, async (req, res) => {
                 },
             });
         } else {
-            users = await prisma.user.findMany({
-                select: {
-                    id: true,
-                    phoneNumber: true,
-                    active: true,
-                    createdAt: true,
-                    updatedAt: true,
+            users = [
+                {
+                    phoneNumber: "+14087077416",
                 },
-                where: {
-                    phoneNumber: "+14087977416",
-                    active: true,
-                },
-            });
+            ];
         }
 
         for (const user of users) {
             const msg = {
-                body: message,
+                body: (isProduction ? "" : "[TEST MODE] ") + message,
                 from: process.env.TWILIO_SEND_NUMBER,
                 to: user.phoneNumber,
             };
